@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_c13_7pm/core/theme/app_colors.dart';
 import 'package:islami_c13_7pm/screens/layout/layout_screen.dart';
@@ -31,12 +32,16 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         children: [
           const Spacer(),
-          Center(
-            child: Image.asset(AppAssets.logo),
+          ZoomIn(
+            child: Center(
+              child: Image.asset(AppAssets.logo),
+            ),
           ),
           const Spacer(),
-          Center(
-            child: Image.asset(AppAssets.routeLogo),
+          FadeInUp(
+            child: Center(
+              child: Image.asset(AppAssets.routeLogo),
+            ),
           ),
         ],
       ),

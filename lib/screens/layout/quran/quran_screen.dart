@@ -408,97 +408,110 @@ class _QuranScreenState extends State<QuranScreen> {
                 end: Alignment.bottomCenter,
                 begin: Alignment.topCenter)),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(child: Image.asset(AppAssets.quranLogo)),
-              TextField(
-                style: theme.textTheme.bodyLarge,
-                onChanged: (value) {
-                  search(value);
-                },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            const BorderSide(color: AppColors.whiteCoffee)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            const BorderSide(color: AppColors.whiteCoffee)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            const BorderSide(color: AppColors.whiteCoffee)),
-                    hintText: "Sura Name",
-                    hintStyle: const TextStyle(
-                      color: AppColors.white,
-                      fontSize: 16,
+          child: CustomScrollView(
+            slivers: [
+              // SliverAppBar(
+              //   floating: true,
+              //   snap: true,
+              //   flexibleSpace: Container(
+              //     height: 300,
+              //     color: AppColors.black,
+              //     child: Image.asset(AppAssets.logo),
+              //   ),
+              //   expandedHeight: 300,
+              // ),
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(child: Image.asset(AppAssets.quranLogo)),
+                    TextField(
+                      style: theme.textTheme.bodyLarge,
+                      onChanged: (value) {
+                        search(value);
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                  color: AppColors.whiteCoffee)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                  color: AppColors.whiteCoffee)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                  color: AppColors.whiteCoffee)),
+                          hintText: "Sura Name",
+                          hintStyle: const TextStyle(
+                            color: AppColors.white,
+                            fontSize: 16,
+                          ),
+                          fillColor: AppColors.black.withOpacity(0.5),
+                          filled: true,
+                          prefixIcon: const ImageIcon(
+                            AssetImage(AppAssets.quranIcon),
+                            color: AppColors.whiteCoffee,
+                          )),
                     ),
-                    fillColor: AppColors.black.withOpacity(0.5),
-                    filled: true,
-                    prefixIcon: const ImageIcon(
-                      AssetImage(AppAssets.quranIcon),
-                      color: AppColors.whiteCoffee,
-                    )),
+                    SizedBox(
+                      height: 2.h(context),
+                      width: 2.w(context),
+                    ),
+                    if (ids.isNotEmpty)
+                      SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          itemCount: ids.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return HistoryCardWidget(
+                                suraData: SuraData(
+                                    index: ids[index],
+                                    nameAr: suraNameAr[ids[index]],
+                                    nameEn: suraNameEn[ids[index]],
+                                    ayaNumber: ayaNumber[ids[index]]));
+                          },
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "Suras List",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 2.h(context),
-                width: 2.w(context),
-              ),
-              if (ids.isNotEmpty)
-                SizedBox(
-                  height: 120,
-                  child: ListView.builder(
-                    itemCount: ids.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return HistoryCardWidget(
+              SliverList.separated(
+                itemCount: surahSearchIds.isEmpty ? 114 : surahSearchIds.length,
+                itemBuilder: (context, index) {
+                  return surahSearchIds.isEmpty
+                      ? AyaWidget(
+                          onTap: saveData,
                           suraData: SuraData(
-                              index: ids[index],
-                              nameAr: suraNameAr[ids[index]],
-                              nameEn: suraNameEn[ids[index]],
-                              ayaNumber: ayaNumber[ids[index]]));
-                    },
-                  ),
-                ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "Suras List",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: AppColors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: ListView.separated(
-                  itemCount:
-                      surahSearchIds.isEmpty ? 114 : surahSearchIds.length,
-                  itemBuilder: (context, index) {
-                    return surahSearchIds.isEmpty
-                        ? AyaWidget(
-                            onTap: saveData,
-                            suraData: SuraData(
-                                index: index,
-                                nameAr: suraNameAr[index],
-                                nameEn: suraNameEn[index],
-                                ayaNumber: ayaNumber[index]),
-                          )
-                        : AyaWidget(
-                            onTap: saveData,
-                            suraData: SuraData(
-                                index: surahSearchIds[index],
-                                nameAr: suraSearchAr[index],
-                                nameEn: suraSearchEn[index],
-                                ayaNumber: ayaNumberSearch[index]));
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                ),
+                              index: index,
+                              nameAr: suraNameAr[index],
+                              nameEn: suraNameEn[index],
+                              ayaNumber: ayaNumber[index]),
+                        )
+                      : AyaWidget(
+                          onTap: saveData,
+                          suraData: SuraData(
+                              index: surahSearchIds[index],
+                              nameAr: suraSearchAr[index],
+                              nameEn: suraSearchEn[index],
+                              ayaNumber: ayaNumberSearch[index]));
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
               )
             ],
           ),

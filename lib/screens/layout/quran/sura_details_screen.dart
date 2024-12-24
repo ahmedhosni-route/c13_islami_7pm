@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami_c13_7pm/core/constant/app_assets.dart';
 import 'package:islami_c13_7pm/core/theme/app_colors.dart';
-import 'package:islami_c13_7pm/screens/layout/quran/quran_screen.dart';
-import 'package:islami_c13_7pm/screens/layout/quran/widgets/aya_widget.dart';
 
 import 'models/sura_data.dart';
 
@@ -55,7 +53,6 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
                   Image.asset(AppAssets.suraDetailsRight),
                 ],
               ),
-
               Expanded(
                 child: ListView(
                   children: [
